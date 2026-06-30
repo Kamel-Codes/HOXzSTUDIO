@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Archivo_Black, Permanent_Marker, Caveat, Kalam } from 'next/font/google'
 import "./globals.css";
-import Navbar from "../components/layout/Navbar";
 
 
 /* ========================================
@@ -160,7 +159,6 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
 
         <div id="root">{children}</div>
-        <Navbar />
       </body>
     </html>
   );
