@@ -9,6 +9,7 @@ import { db } from "@/src/lib/firebase";
 import MainButton from "./MainButton";
 
 
+
 interface HeroProject {
   name?: string;
   status?: string;
@@ -129,6 +130,8 @@ const AvailableBadge = ({ isDark, entryDelay = 1200, isReady = true, onBook }: {
     });
     return () => { unsubAvail(); unsubHandled(); };
   }, []);
+
+
 
   useEffect(() => {
     if (!isReady) return;
