@@ -6,7 +6,6 @@ import dynamic from "next/dynamic"
 const App = dynamic(() => import('@/src/App'), { ssr: false })
 export default function NotFound() {
   return <>
-    Error Component <br />
     <App />
   </>
 }

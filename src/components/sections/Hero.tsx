@@ -2,6 +2,7 @@
 import { useRef, useState, useEffect } from "react";
 import anime from "animejs";
 
+
 import HandwritingText from "../shared/HandWrite";
 import { useSettings } from "@/src/store/SettingsContext";
 import heroImg from '@/src/assets/heroImg.webp'
@@ -28,7 +29,7 @@ export default function HeroSection({ onLoaded, onAnimationComplete, isReady = t
     ? (account?.heroImageUrlDark || account?.heroImageUrl)
     : (account?.heroImageUrl || account?.heroImageUrlDark)) || null;
   const profileName = account?.name || 'Hox Studio';
-  const profileTitle = account?.title || 'a Front-End';
+  const profileTitle = account?.title || 'a FrontEnd ';
 
   // Reset the error flag when the hero URL changes (theme swap / live settings update),
   // using the render-phase "adjust state on dependency change" pattern (React-endorsed,
@@ -63,6 +64,8 @@ export default function HeroSection({ onLoaded, onAnimationComplete, isReady = t
       observer.disconnect();
     };
   }, []);
+
+
 
   // Responsive sizes
   const isMobile = windowWidth < 768;

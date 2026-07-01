@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@custom-variant dark (&:where(.dark, .dark *));
+/* @custom-variant dark (&:where(.dark, .dark *)); */
 
 
 /* ========================================
@@ -16,8 +16,8 @@
    --text-muted: #52525b;
 
    /* Colors - Semantic */
-   --accent: #3395ff;
-   --accent-hover: #1e88ff;
+   --accent: #33ffaa;
+   --accent-hover: #1eff9a;
    --secondary: rgb(99, 102, 241);
    --danger: rgb(239, 68, 68);
    --danger-rgb: 239, 68, 68;
@@ -69,10 +69,10 @@
 
    /* GitHub Commits Graph */
    --commits-l0: rgba(0, 0, 0, 0.05);
-   --commits-l1: rgba(51, 149, 255, 0.18);
-   --commits-l2: rgba(51, 149, 255, 0.38);
-   --commits-l3: rgba(51, 149, 255, 0.62);
-   --commits-l4: rgba(51, 149, 255, 0.92);
+   --commits-l1: rgba(51, 255, 99, 0.18);
+   --commits-l2: rgba(51, 255, 116, 0.38);
+   --commits-l3: rgba(51, 255, 88, 0.62);
+   --commits-l4: rgba(51, 255, 105, 0.92);
 }
 
 /* Style in dark theme */
@@ -86,9 +86,9 @@
    --text-muted: #9ca3af;
 
    /* Colors - Semantic */
-   --accent: #3395ff;
-   --accent-hover: #1e88ff;
-   --secondary: rgb(99, 102, 241);
+   --accent: #33ffaa;
+   --accent-hover: #1effda;
+   --secondary: rgb(99, 241, 220);
    --info: rgb(59, 130, 246);
 
    /* Navbar */
@@ -124,10 +124,10 @@
 
    /* GitHub Commits Graph */
    --commits-l0: rgba(255, 255, 255, 0.04);
-   --commits-l1: rgba(51, 149, 255, 0.14);
-   --commits-l2: rgba(51, 149, 255, 0.32);
-   --commits-l3: rgba(51, 149, 255, 0.56);
-   --commits-l4: rgba(51, 149, 255, 0.88);
+   --commits-l1: rgba(51, 255, 99, 0.14);
+   --commits-l2: rgba(51, 255, 88, 0.32);
+   --commits-l3: rgba(51, 255, 105, 0.56);
+   --commits-l4: rgba(51, 255, 122, 0.88);
 }
 
 
@@ -1410,8 +1410,8 @@ textarea,
 @media (hover: hover) {
    .github-stat-card:hover {
       transform: translateY(-2px);
-      border-color: rgba(51, 149, 255, 0.3) !important;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(51, 149, 255, 0.1);
+      border-color: rgba(51, 255, 160, 0.3) !important;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(51, 255, 177, 0.1);
    }
 
    .dark .github-stat-card:hover {
@@ -1736,12 +1736,12 @@ textarea,
 .btn-primary {
    background-color: var(--accent);
    color: white;
-   box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+   box-shadow: 0 4px 12px rgba(59, 246, 131, 0.3);
 }
 
 .btn-primary:not(:disabled):hover {
    transform: translateY(-2px);
-   box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+   box-shadow: 0 8px 20px rgba(59, 246, 143, 0.4);
 }
 
 .btn-primary:active {
@@ -1911,7 +1911,7 @@ textarea,
 }
 
 .input-with-icon:focus {
-   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+   box-shadow: 0 0 0 3px rgba(59, 246, 128, 0.2);
 }
 
 /* Dashboard Form Elements */

@@ -55,7 +55,7 @@ const fontVariables = [
 /* ========================================
    2. initialize own App data
    ======================================== */
-const siteUrl = 'https://hoxstudio.com'
+const siteUrl = 'https://hoxstudio.netlify.app'
 const siteName = 'Hox Studio'
 const siteTitle = 'Hox Studio | Portfolio'
 const siteDescription = 'Kamel Mohamed (Hox) is a frontend engineer and AI engineer based in Cairo, Egypt. He specializes in React, Next.js, TypeScript, and Firebase, building motion-rich, accessible web experiences with AI integration. Open to freelance, remote, and full-time opportunities.'
