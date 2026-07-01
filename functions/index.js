@@ -12,7 +12,7 @@ const smtpUser = defineSecret("SMTP_USER");
 const smtpPass = defineSecret("SMTP_PASS");
 
 // Public-facing inbox that booking notifications are also copied to.
-const HELLO_EMAIL = "hello@hoxstudio.com";
+const HELLO_EMAIL = "hello@temrevil.com";
 
 // Remote MCP server (agentic portfolio access over OAuth) — defined in its own
 // module and re-exported so `firebase deploy --only functions:mcp` works.
@@ -133,13 +133,13 @@ function emailTemplate({ title, preheader, bodyHtml, footerNote }) {
 <div class="wrapper">
   <div class="card">
     <div class="header">
-      <div class="logo">Hox<span>.</span></div>
+      <div class="logo">Revil<span>.</span></div>
     </div>
     <div class="body">
       ${bodyHtml}
     </div>
     <div class="footer">
-      <p>${footerNote || "hoxstudio.com"}</p>
+      <p>${footerNote || "temrevil.com"}</p>
     </div>
   </div>
 </div>
@@ -177,13 +177,13 @@ async function sendGuestAck(transporter, { to, name, heading, intro, detailRows 
           ${ctaHtml}
           <div class="divider"></div>
           <p>I'll personally get back to you within <strong style="color:#e0e0e0">24 hours</strong>. If it's urgent, just reply to this email.</p>
-          <p style="margin-top:16px">- Hox</p>
+          <p style="margin-top:16px">- Revil</p>
         `,
     footerNote: `Sent from <a href="https://temrevil.com">temrevil.com</a>`,
   });
 
   await transporter.sendMail({
-    from: `"Hox" <${smtpUser.value()}>`,
+    from: `"Revil" <${smtpUser.value()}>`,
     to,
     replyTo: HELLO_EMAIL,
     subject: escSubject(heading),
@@ -210,7 +210,8 @@ exports.syncSession = onRequest(
   {
     region: "us-central1",
     cors: [
-
+      "https://temrevil.com",
+      "https://www.temrevil.com",
       /localhost/,
     ],
     maxInstances: 10,
@@ -379,7 +380,7 @@ exports.notifyCanary = onDocumentWritten(
       try {
         const transporter = createTransporter();
         await transporter.sendMail({
-          from: `"Hox Studio" <${adminEmail}>`,
+          from: `"Revil Portfolio" <${adminEmail}>`,
           to: adminEmail,
           // Copy the public hello@ inbox too (skip if the admin already is hello@).
           cc: adminEmail.toLowerCase() === HELLO_EMAIL ? undefined : HELLO_EMAIL,
@@ -478,7 +479,7 @@ exports.notifyCanary = onDocumentWritten(
       try {
         const transporter = createTransporter();
         await transporter.sendMail({
-          from: `"Hox Studio" <${adminEmail}>`,
+          from: `"Revil Portfolio" <${adminEmail}>`,
           to: meetingRecipients,
           replyTo: m.Email,
           subject: escSubject(`Meeting booked: ${m.Name} on ${m.Date} at ${m.Time}`),
@@ -617,7 +618,7 @@ exports.notifyLogin = onCall(
       const adminEmail = smtpUser.value();
       const transporter = createTransporter();
       await transporter.sendMail({
-        from: `"Hox Security" <${adminEmail}>`,
+        from: `"Revil Security" <${adminEmail}>`,
         to: adminEmail,
         subject: `Login alert: ${dateStr} at ${timeStr}`,
         html,
@@ -632,3 +633,4 @@ exports.notifyLogin = onCall(
     }
   }
 );
+exports.syncMeeting = require("./syncMeeting").syncMeeting;
