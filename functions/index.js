@@ -210,8 +210,8 @@ exports.syncSession = onRequest(
   {
     region: "us-central1",
     cors: [
-      "https://temrevil.com",
-      "https://www.temrevil.com",
+      'https://hox-studio.vercel.app/',
+      'https://hox-studio.vercel.app/',
       /localhost/,
     ],
     maxInstances: 10,

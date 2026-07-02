@@ -201,7 +201,7 @@ export default function HeroSection({ onLoaded, onAnimationComplete, isReady = t
             </span>
           </h1>
 
-          <div className="mt-[-10px] md:mt-[-50px] md:self-end md:mr-[-10px] lg:mr-[-20px] origin-center md:origin-right z-20">
+          <div className="mt-8 mt-[10px] md:mt-[-50px] md:self-end md:mr-[-10px] lg:mr-[-20px] origin-center md:origin-right z-20">
             <HandwritingText
               key={`slogan-2-${profileTitle}`}
               text={profileTitle}
