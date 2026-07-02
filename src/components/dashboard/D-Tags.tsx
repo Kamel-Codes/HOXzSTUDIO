@@ -2,10 +2,9 @@ import { useState, useEffect, useRef } from 'react';
 import { sanitizeSvg } from '../../lib/sanitize';
 import { Search, Plus, Tag, Edit2, Trash2, Users, UserPlus } from 'lucide-react';
 import { doc, collection, onSnapshot, updateDoc, deleteField } from 'firebase/firestore';
-import { ref, uploadBytes, getDownloadURL, deleteObject, getStorage } from 'firebase/storage';
-import app, { db } from '../../lib/firebase';
-// Local Storage handle (lazy Dashboard chunk) - keeps firebase/storage out of eager.
-const storage = getStorage(app);
+import { db } from '../../lib/firebase';
+
+
 import anime from 'animejs';
 import { TagData, ContributorData, TagFormData } from '../../types';
 import MTagForm from './M-TagForm';
@@ -259,9 +258,24 @@ const DTags = () => {
 
             // Handle file upload if a new file was provided
             if (data.iconFile) {
-                const storageRef = ref(storage, `src/svgs/${id}_${data.iconFile.name}`);
-                await uploadBytes(storageRef, data.iconFile);
-                iconUrl = await getDownloadURL(storageRef);
+                const formData = new FormData();
+
+                formData.append("file", data.iconFile);
+                formData.append("upload_preset", "tags-store");
+
+                const response = await fetch(
+                    "https://api.cloudinary.com/v1_1/ijtubjvy/image/upload",
+                    {
+                        method: "POST",
+                        body: formData,
+                    }
+                );
+
+                const result = await response.json();
+                console.log("Status:", response.status);
+                console.log("Cloudinary:", result);
+
+                iconUrl = result.secure_url;
             }
 
             const tagPayload = {
@@ -318,24 +332,31 @@ const DTags = () => {
             if (typeof data.image === 'string') {
                 imageUrl = data.image;
             } else if (data.image instanceof File) {
-                const now = new Date();
-                const dateStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
-                const timeStr = `${String(now.getHours()).padStart(2, '0')}-${String(now.getMinutes()).padStart(2, '0')}-${String(now.getSeconds()).padStart(2, '0')}`;
-                const safeName = data.name.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_-]/g, '');
-                const fileName = `${safeName}-${dateStr}-${timeStr}.webp`;
-                const storageRef = ref(storage, `src/imgs/Contributors/${fileName}`);
-                await uploadBytes(storageRef, data.image);
-                imageUrl = await getDownloadURL(storageRef);
+                const formData = new FormData();
 
-                // Delete the old image from storage if it exists and is different
-                if (oldImageUrl && oldImageUrl !== imageUrl) {
-                    try {
-                        const oldRef = ref(storage, oldImageUrl);
-                        await deleteObject(oldRef);
-                    } catch (err) {
-                        console.warn('Could not delete old contributor image:', err);
+                formData.append("file", data.image);
+                formData.append("upload_preset", "contriputors");
+                formData.append("folder", "contributors");
+
+                const response = await fetch(
+                    "https://api.cloudinary.com/v1_1/ijtubjvy/image/upload",
+                    {
+                        method: "POST",
+                        body: formData,
                     }
+                );
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(result.error?.message || "Upload failed");
                 }
+                if (!response.ok) {
+                    throw new Error(result.error?.message || "Upload failed");
+                }
+
+                imageUrl = result.secure_url;
+
             }
 
             const contribPayload = {

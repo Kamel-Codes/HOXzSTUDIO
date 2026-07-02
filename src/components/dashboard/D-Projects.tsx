@@ -597,43 +597,58 @@ const DProjects = () => {
             }
 
             // 2. Upload Project Icon (if new file provided)
-            if (data.icon && typeof data.icon !== 'string') {
-                const iconFile = data.icon as File;
-                const iconRef = ref(storage, `src/projects-imgs/${projectName}/icon`);
-                await uploadBytes(iconRef, iconFile);
-                iconUrl = await getDownloadURL(iconRef);
+            if (data.icon && typeof data.icon !== "string") {
+                const formData = new FormData();
+
+                formData.append("file", data.icon);
+                formData.append("upload_preset", "projects");
+                formData.append("folder", `projects/${projectName}`);
+                formData.append("public_id", "icon"); // هيبقى اسم الصورة icon
+
+                const response = await fetch(
+                    "https://api.cloudinary.com/v1_1/ijtubjvy/image/upload",
+                    {
+                        method: "POST",
+                        body: formData,
+                    }
+                );
+
+                if (!response.ok) {
+                    throw new Error("Failed to upload project icon");
+                }
+
+                const result = await response.json();
+
+                iconUrl = result.secure_url;
             }
 
             // 3. Upload Project Images
             for (const file of data.images) {
-                if (typeof file === 'string') {
-                    // If it was an old URL and we renamed, we need to point to the new one
-                    const encodedOldName = encodeURIComponent(oldName || '');
-                    const oldPathChunk = `projects-imgs%2F${encodedOldName}%2F`;
-
-                    if (isNameChanged && file.includes(oldPathChunk)) {
-                        const fileName = file.split('/').pop()?.split('?')[0].split('%2F').pop();
-                        if (fileName) {
-                            try {
-                                const newRef = ref(storage, `src/projects-imgs/${projectName}/${decodeURIComponent(fileName)}`);
-                                const newUrl = await getDownloadURL(newRef);
-                                imageUrls.push(newUrl);
-                            } catch (err) {
-                                console.warn(`Could not get new URL for ${fileName}, keeping old:`, err);
-                                imageUrls.push(file);
-                            }
-                        } else {
-                            imageUrls.push(file);
-                        }
-                    } else {
-                        imageUrls.push(file);
-                    }
-                } else if (file instanceof File) {
-                    const imgRef = ref(storage, `src/projects-imgs/${projectName}/${file.name}`);
-                    await uploadBytes(imgRef, file);
-                    const url = await getDownloadURL(imgRef);
-                    imageUrls.push(url);
+                if (typeof file === "string") {
+                    imageUrls.push(file);
+                    continue;
                 }
+
+                const formData = new FormData();
+                formData.append("file", file);
+                formData.append("upload_preset", "projects");
+                formData.append("folder", `projects/${projectName}`);
+
+                const response = await fetch(
+                    `https://api.cloudinary.com/v1_1/ijtubjvy/image/upload`,
+                    {
+                        method: "POST",
+                        body: formData,
+                    }
+                );
+
+                if (!response.ok) {
+                    throw new Error("Failed to upload image");
+                }
+
+                const result = await response.json();
+
+                imageUrls.push(result.secure_url);
             }
 
             // 3b. Clean up removed images from Storage
