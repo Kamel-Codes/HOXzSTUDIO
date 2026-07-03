@@ -294,6 +294,7 @@ const MContributorForm = ({ isOpen, onClose, onSave, initialData }: MContributor
                         onSelect={(url) => { setOriginalImageSrc(url); setIsCropping(true); }}
                         fileTypes={['png', 'jpg', 'jpeg', 'webp']}
                         title="Select Profile Image"
+                        folder='contriputors'
                     />
                 </motion.div>
             )}

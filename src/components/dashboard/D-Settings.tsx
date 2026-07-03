@@ -1710,6 +1710,7 @@ export default function DSettings() {
             <MFirebaseStorage
                 isOpen={firebaseBrowserOpen}
                 onClose={() => { setFirebaseBrowserOpen(false); setFirebaseSelectTarget(null); }}
+                folder='tags'
                 onSelect={(url) => {
                     if (firebaseSelectTarget === 'hero') {
                         setHeroImagePreview(url);
