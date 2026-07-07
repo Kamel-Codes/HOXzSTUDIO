@@ -464,28 +464,34 @@ const MProjectForm = ({ isOpen, onClose, onSave, initialData }: Omit<MProjectFor
                                                 <label className="dashboard-label">Project Gallery</label>
                                                 {formData.images.length > 0 ? (
                                                     <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                                                        {formData.images.map((file, idx) => (
-                                                            <div key={idx} className={`aspect-video rounded-lg overflow-hidden relative group ${isDark ? 'bg-white/5' : 'bg-gray-100'}`}>
-                                                                {isVideo(file) ? (
-                                                                    <GalleryVideoPreview file={file} />
-                                                                ) : (
-                                                                    <FileImage
-                                                                        src={file}
-                                                                        className="w-full h-full object-cover"
-                                                                        alt={`Gallery ${idx + 1}`}
-                                                                    />
-                                                                )}
-                                                                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                                                    <button
-                                                                        type="button"
-                                                                        onClick={() => removeFile(idx)}
-                                                                        className="w-8 h-8 rounded-lg bg-red-500 hover:bg-red-600 flex items-center justify-center transition-colors"
-                                                                    >
-                                                                        <Trash2 size={16} className="text-white" />
-                                                                    </button>
+                                                        {formData.images.map((file, idx) => {
+                                                            const preview =
+                                                                file instanceof File
+                                                                    ? URL.createObjectURL(file)
+                                                                    : file;
+                                                            return (
+                                                                <div key={idx} className={`aspect-video rounded-lg overflow-hidden relative group ${isDark ? 'bg-white/5' : 'bg-gray-100'}`}>
+                                                                    {isVideo(file) ? (
+                                                                        <GalleryVideoPreview file={preview} />
+                                                                    ) : (
+                                                                        <FileImage
+                                                                            src={preview}
+                                                                            className="w-full h-full object-cover"
+                                                                            alt={`Gallery ${idx + 1}`}
+                                                                        />
+                                                                    )}
+                                                                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                                                        <button
+                                                                            type="button"
+                                                                            onClick={() => removeFile(idx)}
+                                                                            className="w-8 h-8 rounded-lg bg-red-500 hover:bg-red-600 flex items-center justify-center transition-colors"
+                                                                        >
+                                                                            <Trash2 size={16} className="text-white" />
+                                                                        </button>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        ))}
+                                                            )
+                                                        })}
                                                         <button
                                                             type="button"
                                                             onClick={() => imagesInputRef.current?.click()}
@@ -845,11 +851,14 @@ const LiveProjectCard = ({ project, isDark }: { project: ProjectFormData; isDark
                         const isVid = typeof img === 'string'
                             ? (img.split('?')[0].toLowerCase().match(/\.(mp4|webm|ogg|mov)$/) || img.includes('/videos/'))
                             : img.type.startsWith('video/');
-
+                        const preview =
+                            img instanceof File
+                                ? URL.createObjectURL(img)
+                                : img;
                         return (
                             <LivePreviewItem
                                 key={i}
-                                img={img}
+                                img={preview}
                                 isVid={!!isVid}
                                 alt={project.name}
                                 style={{
