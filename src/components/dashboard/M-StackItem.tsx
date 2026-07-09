@@ -146,6 +146,7 @@ const MStackItem = ({ isOpen, onClose, onSave, initialData }: MStackItemProps) =
                 }}
                 fileTypes={['svg']}
                 title="Select Stack Icon"
+                folder='tags'
             />
         </>,
         document.body
